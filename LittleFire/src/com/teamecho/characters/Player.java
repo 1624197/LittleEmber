@@ -38,7 +38,6 @@ public class Player {
     private int JumpHeight = -10;
     private boolean Jumping = false;
     private int Gravity = 1;
-    private int temp = 0;
     // Test 123
 
     /**
@@ -151,15 +150,15 @@ public class Player {
         
         if (Jumping == true) {
             {
-                if (temp == 3) {
+                
                     dY += Gravity;
                     temp = 0;
                     System.out.println("I am falling");
                     if (dY > MaxFallSpeed) {
                         this.dY = MaxFallSpeed;
                     }
-                }
-                temp += 1;
+                
+                
             }
             System.out.println(getY());
 
