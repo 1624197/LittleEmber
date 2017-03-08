@@ -186,9 +186,10 @@ public class Player {
                         this.dY = MaxFallSpeed;
                     }
                 }
+                System.out.println(dX);
                 GravityDelay += 1;
             }
-            System.out.println(getY());
+            
 
         }
     }
