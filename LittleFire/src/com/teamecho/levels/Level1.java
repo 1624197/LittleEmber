@@ -13,6 +13,7 @@ package com.teamecho.levels;
 import com.teamecho.game.Game;
 import com.teamecho.characters.Player;
 import com.teamecho.characters.Ember;
+import com.teamecho.game.Sound;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -69,6 +70,9 @@ public class Level1 extends JPanel implements ActionListener {
 
         timer = new Timer(10, this);
         timer.start();
+        
+        //Starts the background music
+        Sound.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
 
     /**
