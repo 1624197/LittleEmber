@@ -133,10 +133,11 @@ public class Player {
 
     /**
      * When the user releases the key, reset the move displacement to 0
+     * this is to be changed
      */
     public void stop() {
         dX = 0;
-        
+
     }
 
     public void Jump() {
@@ -147,18 +148,17 @@ public class Player {
     }
 
     public void fall() {
-        
+
         if (Jumping == true) {
             {
-                
-                    dY += Gravity;
-                    temp = 0;
-                    System.out.println("I am falling");
-                    if (dY > MaxFallSpeed) {
-                        this.dY = MaxFallSpeed;
-                    }
-                
-                
+
+                dY += Gravity;
+
+                System.out.println("I am falling");
+                if (dY > MaxFallSpeed) {
+                    this.dY = MaxFallSpeed;
+                }
+
             }
             System.out.println(getY());
 
