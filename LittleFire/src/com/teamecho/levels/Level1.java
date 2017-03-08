@@ -108,9 +108,9 @@ public class Level1 extends JPanel implements ActionListener {
     public void checkCollisions() {
         Rectangle playerBounds = thePlayer.getBounds();
         Rectangle treasureBounds = theEmber.getBounds();
-        if (thePlayer.getY() > GroundLevel){
-        thePlayer.Land();
-        thePlayer.setY(GroundLevel - 1); 
+        if (thePlayer.getY() > GroundLevel) {
+            thePlayer.Land();
+            thePlayer.setY(GroundLevel - 1);
         }
 
         // Check to see if the player boundary (rectangle) intersects
@@ -162,10 +162,10 @@ public class Level1 extends JPanel implements ActionListener {
                 case KeyEvent.VK_RIGHT:
                     move = 2;
                     break;
-                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_UP:
                     move = 3;
                     break;
-                    
+
                 default:
                     break;
             }
@@ -174,16 +174,21 @@ public class Level1 extends JPanel implements ActionListener {
 
         @Override
         public void keyReleased(KeyEvent e) {
+            
+                int stop = 0;
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    thePlayer.stop();
+                    stop = 1;
                     break;
                 case KeyEvent.VK_RIGHT:
-                    thePlayer.stop();
+                    stop = 2;
                     break;
+
                 default:
                     break;
             }
+            thePlayer.stop(stop);
         }
     }
 }
+
