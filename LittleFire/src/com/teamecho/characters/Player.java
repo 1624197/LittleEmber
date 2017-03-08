@@ -21,7 +21,7 @@ public class Player {
 
     // displacement from current x coordinate (i.e. how far the x coord has changed 
     // by user interaction
-    private int dX;
+    private int dX = 0;
     // displacement from the current y coordinate (i.e. how far the y coord has changed
     // by user interaction
     private int dY = 0;
@@ -38,7 +38,10 @@ public class Player {
     private int JumpHeight = -10;
     private boolean Jumping = false;
     private int Gravity = 1;
-    // Test 123
+    private int Movespeed = 30;
+    private int GravityDelay = 0;
+    private boolean MovingRight = false;
+    private boolean MovingLeft = false;
 
     /**
      * Default constructor that sets X and Y coordinates to 10
@@ -117,11 +120,16 @@ public class Player {
     public void move(int direction) {
         switch (direction) {
             case 1:
-                dX = -1;
+                if (MovingLeft == false) {
+                    dX -= 1;
+                    MovingLeft = true;
+                }
                 break;
-
             case 2:
-                dX = 1;
+                if (MovingRight == false) {
+                    dX += 1;
+                    MovingRight = true;
+                }
                 break;
             case 3:
                 Jump();
@@ -132,12 +140,31 @@ public class Player {
     }
 
     /**
-     * When the user releases the key, reset the move displacement to 0
-     * this is to be changed
+     * When the user releases the key, reset the move displacement to 0 this is
+     * to be changed
+     *
+     * @param stop
      */
-    public void stop() {
-        dX = 0;
+    public void stop(int stop) {
+        switch (stop) {
+            case 1:
+                if (MovingLeft == true) {
+                    dX += 1;
+                    MovingLeft = false;
+                }
+                break;
 
+            case 2:
+                if (MovingRight == true) {
+                    dX -= 1;
+                    MovingRight = false;
+                }
+                break;
+
+            default:
+                break;
+
+        }
     }
 
     public void Jump() {
@@ -151,14 +178,15 @@ public class Player {
 
         if (Jumping == true) {
             {
-
-                dY += Gravity;
-
-                System.out.println("I am falling");
-                if (dY > MaxFallSpeed) {
-                    this.dY = MaxFallSpeed;
+                if (GravityDelay == 3) {
+                    dY += Gravity;
+                    GravityDelay = 0;
+                    System.out.println("I am falling");
+                    if (dY > MaxFallSpeed) {
+                        this.dY = MaxFallSpeed;
+                    }
                 }
-
+                GravityDelay += 1;
             }
             System.out.println(getY());
 
