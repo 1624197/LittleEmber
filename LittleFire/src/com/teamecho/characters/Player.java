@@ -133,6 +133,7 @@ public class Player {
 
     /**
      * When the user releases the key, reset the move displacement to 0
+     * this is to be changed
      */
     public void stop() {
         dX = 0;
