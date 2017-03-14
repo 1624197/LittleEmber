@@ -189,7 +189,6 @@ public class Player {
                 System.out.println(dX);
                 GravityDelay += 1;
             }
-            
 
         }
     }
