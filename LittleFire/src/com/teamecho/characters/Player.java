@@ -49,7 +49,7 @@ public class Player {
     //these are used to hold if the player is trying to move left and or right
     private boolean MovingRight = false;
     private boolean MovingLeft = false;
-
+//test123
     /**
      * Default constructor that sets X and Y coordinates to 10
      */
