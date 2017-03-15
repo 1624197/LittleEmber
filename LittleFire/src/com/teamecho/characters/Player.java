@@ -34,12 +34,19 @@ public class Player {
     //This variable stores the height of the image
     private int spriteHeight;
 
+    //this caps the fall speed of the player
     private int MaxFallSpeed = 5;
+    //this is the initial jump speed of the player
     private int JumpHeight = -10;
+    // this holds wheather the player is in the air or not
     private boolean Jumping = false;
+    //this holds
     private int Gravity = 1;
-    private int Movespeed = 30;
+    //this holds the movement speed modifier for the player
+    private int Movespeed = 3;
+    //this variable is used to delay the chage of downward momentum
     private int GravityDelay = 0;
+    //these are used to hold if the player is trying to move left and or right
     private boolean MovingRight = false;
     private boolean MovingLeft = false;
 
@@ -66,6 +73,8 @@ public class Player {
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
     }
+    //getSpriteWidth and getSpriteHeight are used to let other classes access the 
+    //width and height of the character
 
     public int getSpriteWidth() {
         return spriteWidth;
@@ -74,19 +83,20 @@ public class Player {
     public int getSpriteHeight() {
         return spriteHeight;
     }
-
+    //this is used to forcefully set the x value  from other classes
     public void setX(int newX) {
         x = newX;
     }
-
+    //this is used to get the X value of the player character from other clasess
     public int getX() {
         return x;
     }
-
+    
+    //this is used to forcefully set the y value  from other classes
     public void setY(int newY) {
         y = newY;
     }
-
+    //this is used to get the Y value of the player character from other clasess
     public int getY() {
         return y;
     }
@@ -101,73 +111,108 @@ public class Player {
     }
 
     /**
-     * This method is called to move the position of the player
+     * This method is called to move the position of the player based on the
+     * displacement values
      */
     public void updateMove() {
-        x += dX;
+        x += dX * Movespeed;
+        //this modifies the y value of the player
         y += dY;
-
+        //this is called to check if the player is in the air and to manipulate dY
         fall();
-
     }
 
     /**
-     * This method updates the displacement of the character based on the users
-     * key press
+     * This method modifies the displacement of the x value depending on weather
+     * the player is trying to move left or right the displacement is modified
+     * instead of being set because this stops the stop and go movement of
+     * setting it
      *
      * @param direction
      */
     public void move(int direction) {
+        //the direction the player moves is sent from the key adaptor in the levels
         switch (direction) {
             case 1:
+                //this checks if the player is not already moving left
                 if (MovingLeft == false) {
+                    //this modifies the displacement to be more towards the left
                     dX -= 1;
+                    /**
+                     * this then sets moving left to true to prevent the
+                     * displacement from being modified without the player
+                     * stopping first
+                     */
                     MovingLeft = true;
                 }
                 break;
             case 2:
+                //this checks if the player is not already moving right
                 if (MovingRight == false) {
+                    //this modifies the displacement to be more towards the right
                     dX += 1;
+                    /**
+                     * this then sets moving right to true to prevent the
+                     * displacement from being modified without the player
+                     * stopping first
+                     */
                     MovingRight = true;
                 }
                 break;
             case 3:
+                //this calls the jump function
                 Jump();
                 break;
             default:
                 break;
         }
     }
+// this is called when the player initially jumps
 
     public void Jump() {
+        //this checks to see if the player is already in the air
         if (Jumping == false) {
+            //this sets the player character to be in the air
             Jumping = true;
+            //this sets the initial upwards momentum for when the player jumps
             dY = JumpHeight;
         }
     }
 
     /**
-     * When the user releases the key, reset the move displacement to 0 this is
-     * to be changed
+     * When the user releases a key the displacement from pressing that key is
+     * negated. this is done instead of setting it because the displacement is
+     * shared between going left and going right so setting it would disrupt the
+     * other movement
      *
      * @param stop
      */
     public void stop(int stop) {
         switch (stop) {
             case 1:
+                //this checks to see if the player is already
+                //moving left before it tries to stop them
                 if (MovingLeft == true) {
+                    //this neutralises the displacement change from the movement
                     dX += 1;
+                    //this then sets movingLeft to false to allow the player to
+                    //moveleft again
                     MovingLeft = false;
                 }
                 break;
 
             case 2:
+                //this checks to see if the player is already
+                //moving left before it tries to stop them
                 if (MovingRight == true) {
+                    //this neutralises the displacement change from the movement
                     dX -= 1;
+                    //this then sets movingLeft to false to allow the player to
+                    //moveleft again
                     MovingRight = false;
                 }
                 break;
-
+            //nothing to do with jumping is needed as other functions handle it
             default:
                 break;
 
@@ -190,7 +235,7 @@ public class Player {
                         dY = MaxFallSpeed;
                     }
                 }
-                System.out.println(dX);
+                //this increments the delay value
                 GravityDelay += 1;
             }
 
@@ -207,6 +252,8 @@ public class Player {
     //jumping is set to false to allow the player to jump again
     public void Land() {
         Jumping = false;
+        //this forcefully sets the displacement to 0 so that this function can 
+        // be used for more than 
         dY = 0;
     }
 }
