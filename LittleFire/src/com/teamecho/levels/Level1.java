@@ -70,7 +70,7 @@ public class Level1 extends JPanel implements ActionListener {
 
         timer = new Timer(10, this);
         timer.start();
-        
+
         //Starts the background music
         Sound.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
@@ -178,8 +178,8 @@ public class Level1 extends JPanel implements ActionListener {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            
-                int stop = 0;
+
+            int stop = 0;
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     stop = 1;
@@ -195,4 +195,3 @@ public class Level1 extends JPanel implements ActionListener {
         }
     }
 }
-
