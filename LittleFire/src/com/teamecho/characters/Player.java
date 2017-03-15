@@ -67,6 +67,14 @@ public class Player {
         spriteHeight = sprite.getHeight();
     }
 
+    public int getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public int getSpriteHeight() {
+        return spriteHeight;
+    }
+
     public void setX(int newX) {
         x = newX;
     }
@@ -81,14 +89,6 @@ public class Player {
 
     public int getY() {
         return y;
-    }
-
-    public int getSpriteWidth() {
-        return spriteWidth;
-    }
-
-    public int getSpriteHeight() {
-        return spriteHeight;
     }
 
     /**
@@ -139,6 +139,13 @@ public class Player {
         }
     }
 
+    public void Jump() {
+        if (Jumping == false) {
+            Jumping = true;
+            dY = JumpHeight;
+        }
+    }
+
     /**
      * When the user releases the key, reset the move displacement to 0 this is
      * to be changed
@@ -167,23 +174,20 @@ public class Player {
         }
     }
 
-    public void Jump() {
-        if (Jumping == false) {
-            Jumping = true;
-            dY = JumpHeight;
-        }
-    }
-
     public void fall() {
-
+        //this checks to see if the player is in the air
         if (Jumping == true) {
             {
+                // this is used to delay the change in gravity for a more gradual change
                 if (GravityDelay == 3) {
+                    //this modifies the displacement for the y to gradually shift it downwards
                     dY += Gravity;
+                    //this resets the delay
                     GravityDelay = 0;
-                    System.out.println("I am falling");
+                    //this checks to see if the player is falling too fast
                     if (dY > MaxFallSpeed) {
-                        this.dY = MaxFallSpeed;
+                        //this changes the displacement to cap the max fall speed
+                        dY = MaxFallSpeed;
                     }
                 }
                 System.out.println(dX);
@@ -192,15 +196,17 @@ public class Player {
 
         }
     }
+//This gets the area of the player for use in collision checks
 
     public Rectangle getBounds() {
         Rectangle characterRect = new Rectangle(x, y, spriteWidth, spriteHeight);
         return characterRect;
     }
 
+    //this is called when the player has landed on top of any object to stop the downward momentum
+    //jumping is set to false to allow the player to jump again
     public void Land() {
         Jumping = false;
         dY = 0;
-
     }
 }
