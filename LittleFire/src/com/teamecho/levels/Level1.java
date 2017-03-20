@@ -112,9 +112,9 @@ public class Level1 extends JPanel implements ActionListener {
     public void checkCollisions() {
         Rectangle playerBounds = thePlayer.getBounds();
         Rectangle treasureBounds = theEmber.getBounds();
-        if (thePlayer.getY() > GroundLevel) {
+        if (thePlayer.getY() > GroundLevel - 3) {
             thePlayer.Land();
-            thePlayer.setY(GroundLevel - 1);
+            thePlayer.setY(GroundLevel - 3);
         }
 
         // Check to see if the player boundary (rectangle) intersects
@@ -146,8 +146,9 @@ public class Level1 extends JPanel implements ActionListener {
         //The repaint method starts the process of updating the screen - calling
         //our version of the paintComponent method, which has the code for drawing
         //our characters and objects
-        checkCollisions();
+        
         doMovement();
+        checkCollisions();
         repaint();
     }
 
