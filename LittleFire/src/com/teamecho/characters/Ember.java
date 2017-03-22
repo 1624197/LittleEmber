@@ -33,13 +33,13 @@ public class Ember
      * The default constructor that initialises values to suitable defaults
      */
     
-    public Ember()
+    public Ember(int X, int Y)
     {
-        x = 100;
-        y = 350;
+        x = X;
+        y = Y;
         score = 50;
         isVisible = true;
-        
+          
         try
         {
             sprite = ImageIO.read(getClass().getResourceAsStream("/Images/ember.png"));
