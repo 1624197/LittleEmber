@@ -41,15 +41,24 @@ public class Level1 extends JPanel implements ActionListener {
     private Game game;
     private Player thePlayer;
     private Ember theEmber;
-
-    private final int GroundLevel = 500;
+    private Ember theEmber2;
+    private Ember theEmber3;
+    private Ember theEmber4;
+    private Ember theEmber5;
+    //JG 22/03/17 USE AN ARRAY WHERE POSSIBLE FOR COLLECTABLES BUT FOR PURPOSE OF TESTING HAVE SET UP AS SEPERATE 
+    private final int GroundLevel = 520;
 
     public Level1(Game theGame) {
 
         game = theGame;
         thePlayer = new Player();
         thePlayer.setY(GroundLevel);
-        theEmber = new Ember();
+        theEmber = new Ember(100,400); 
+        theEmber2 = new Ember(200,350);
+        theEmber3 = new Ember(300,400); 
+        theEmber4 = new Ember(400,350);  
+        theEmber5 = new Ember(500,400);  
+        //JG 22/03/17 USE AN ARRAY WHERE POSSIBLE FOR COLLECTABLES BUT FOR PURPOSE OF TESTING HAVE SET UP AS SEPERATE 
         init();
     }
 
@@ -96,10 +105,26 @@ public class Level1 extends JPanel implements ActionListener {
         if (theEmber.getVisible() == true) {
             g.drawImage(theEmber.getSprite(), theEmber.getX(), theEmber.getY(), null);
         }
+        
+        if (theEmber2.getVisible() == true) {
+            g.drawImage(theEmber2.getSprite(), theEmber2.getX(), theEmber2.getY(), null);
+        }
+                
+        if (theEmber3.getVisible() == true) {
+            g.drawImage(theEmber3.getSprite(), theEmber3.getX(), theEmber3.getY(), null);
+        }
+                        
+        if (theEmber4.getVisible() == true) {
+            g.drawImage(theEmber4.getSprite(), theEmber4.getX(), theEmber4.getY(), null);
+        }
+
+        if (theEmber5.getVisible() == true) {
+            g.drawImage(theEmber5.getSprite(), theEmber5.getX(), theEmber5.getY(), null);
+        }  
 
         //Code to draw the score on screen
         Font uiFont = new Font("Arial", Font.PLAIN, 14);
-        g.setColor(Color.yellow);
+        g.setColor(Color.orange);
         g.setFont(uiFont);
         g.drawString("Score: " + score, 10, 15);
 
