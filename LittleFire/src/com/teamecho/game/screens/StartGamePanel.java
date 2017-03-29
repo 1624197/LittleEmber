@@ -11,6 +11,7 @@ package com.teamecho.game.screens;
  * @author 1622542
  */
 import com.teamecho.game.Game;
+import com.teamecho.game.objects.StartGameButton;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -26,13 +27,16 @@ public class StartGamePanel extends JPanel {
     private Game game; // this is a link back to the game controller class
     private BufferedImage backgroundImage = null;
     private final String SCREEN_TITLE = "Main Menu"; // sets screen title
-
+    private StartGameButton thebutton;
+    
     public StartGamePanel(Game theGame) {
         game = theGame;
+        thebutton = new StartGameButton();
         initPanel();
     }
 
     private void initPanel() {
+        
         //Load the background image
         try {
             backgroundImage = ImageIO.read(getClass().getResource("/Images/MainMenuBackground.png"));
@@ -52,12 +56,12 @@ public class StartGamePanel extends JPanel {
         //call the paintComponent method on the superclass to initialise drawing
         super.paintComponent(g);
         Font titleFont = new Font("Arial", Font.PLAIN, 22);
-
+        
         //Start drawing -- the background goes first
         g.setFont(titleFont);
         g.drawString(SCREEN_TITLE, 20, 20);
         g.drawImage(backgroundImage, 0, 0, null);
-
+g.drawImage(thebutton.getSprite(), thebutton.getX(), thebutton.getY(), null);
         Toolkit.getDefaultToolkit().sync(); // Ensure that the objects visual state is up to date
     }
 
