@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.Random;
 
 /**
  * This panel represents the game world It contains all of the objects that take
@@ -40,12 +41,8 @@ public class Level1 extends JPanel implements ActionListener {
     BufferedImage background;
     private Game game;
     private Player thePlayer;
-    private Ember theEmber;
-    private Ember theEmber2;
-    private Ember theEmber3;
-    private Ember theEmber4;
-    private Ember theEmber5;
-    //JG 22/03/17 USE AN ARRAY WHERE POSSIBLE FOR COLLECTABLES BUT FOR PURPOSE OF TESTING HAVE SET UP AS SEPERATE 
+    private Ember[] embers;
+    private final int NUMBER_OF_EMBERS = 5;
     private final int GroundLevel = 520;
 
     public Level1(Game theGame) {
@@ -53,12 +50,23 @@ public class Level1 extends JPanel implements ActionListener {
         game = theGame;
         thePlayer = new Player();
         thePlayer.setY(GroundLevel);
-        theEmber = new Ember(100,400); 
-        theEmber2 = new Ember(200,350);
-        theEmber3 = new Ember(300,400); 
-        theEmber4 = new Ember(400,350);  
-        theEmber5 = new Ember(500,400);  
-        //JG 22/03/17 USE AN ARRAY WHERE POSSIBLE FOR COLLECTABLES BUT FOR PURPOSE OF TESTING HAVE SET UP AS SEPERATE 
+        embers = new Ember[NUMBER_OF_EMBERS];
+        Random rand = new Random();
+        
+        int emberX, emberY; // X and Y coordinates for the collectables
+        
+        //Initialise all embers
+        for(int i = 0; i < NUMBER_OF_EMBERS; i++)
+        {
+            emberX = rand.nextInt(800) + 1; // pick a random X coordinate
+            emberY = rand.nextInt(600) + 1; // pick a random Y coorinate
+            
+            // Use the overloaded ember constructor to create a new
+            // ember object with the X and Y coordinates selected
+            // and a score value
+            embers[i] = new Ember(emberX, emberY, 30);
+        }
+        
         init();
     }
 
@@ -102,25 +110,15 @@ public class Level1 extends JPanel implements ActionListener {
         g.drawImage(thePlayer.getSprite(), thePlayer.getX(), thePlayer.getY(), null);
 
         //Draw the ember if it has not been picked up
-        if (theEmber.getVisible() == true) {
-            g.drawImage(theEmber.getSprite(), theEmber.getX(), theEmber.getY(), null);
+        for(int i = 0; i < NUMBER_OF_EMBERS; i++)
+        {
+            if(embers[i].getVisible() == true)
+            {
+                g.drawImage(embers[i].getSprite(), embers[i].getX(), embers[i].getY(), null);
+            }
         }
         
-        if (theEmber2.getVisible() == true) {
-            g.drawImage(theEmber2.getSprite(), theEmber2.getX(), theEmber2.getY(), null);
-        }
-                
-        if (theEmber3.getVisible() == true) {
-            g.drawImage(theEmber3.getSprite(), theEmber3.getX(), theEmber3.getY(), null);
-        }
-                        
-        if (theEmber4.getVisible() == true) {
-            g.drawImage(theEmber4.getSprite(), theEmber4.getX(), theEmber4.getY(), null);
-        }
-
-        if (theEmber5.getVisible() == true) {
-            g.drawImage(theEmber5.getSprite(), theEmber5.getX(), theEmber5.getY(), null);
-        }  
+       
 
         //Code to draw the score on screen
         Font uiFont = new Font("Arial", Font.PLAIN, 14);
@@ -136,7 +134,7 @@ public class Level1 extends JPanel implements ActionListener {
      */
     public void checkCollisions() {
         Rectangle playerBounds = thePlayer.getBounds();
-        Rectangle treasureBounds = theEmber.getBounds();
+        Rectangle currentEmberBounds; //this variable will be updated with the bounds of each ember in a loop
         if (thePlayer.getY() > GroundLevel - 3) {
             thePlayer.Land();
             thePlayer.setY(GroundLevel - 3);
@@ -144,12 +142,19 @@ public class Level1 extends JPanel implements ActionListener {
 
         // Check to see if the player boundary (rectangle) intersects
         // with the ember boundary (i.e. there is a collision)
-        if (theEmber.getVisible() == true) {
-            if (playerBounds.intersects(treasureBounds)) {
-                score += 10;
-                theEmber.setVisible(false);
-            }
+        for(int i = 0; i < NUMBER_OF_EMBERS; i++)
+        {
+           if (embers[i].getVisible() == true) { 
+               currentEmberBounds = embers[i].getBounds();
+               
+               if(playerBounds.intersects(currentEmberBounds) == true)
+               {
+                   score += embers[i].getScore();
+                   embers[i].setVisible(false);
+               }
+           }
         }
+        
     }
 
     /**

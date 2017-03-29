@@ -33,11 +33,12 @@ public class Ember
      * The default constructor that initialises values to suitable defaults
      */
     
-    public Ember(int X, int Y)
+    public Ember(int newX, int newY, int newScore)
     {
-        x = X;
-        y = Y;
-        score = 50;
+        x = newX;
+        y = newY;
+        score = newScore;
+        
         isVisible = true;
         
         try
