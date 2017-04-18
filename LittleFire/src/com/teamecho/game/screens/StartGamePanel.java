@@ -21,14 +21,16 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class StartGamePanel extends JPanel {
+public class StartGamePanel extends JPanel implements MouseListener {
 
     private Game game; // this is a link back to the game controller class
     private BufferedImage backgroundImage = null;
     private final String SCREEN_TITLE = "Main Menu"; // sets screen title
     private StartGameButton thebutton;
-    
+
     public StartGamePanel(Game theGame) {
         game = theGame;
         thebutton = new StartGameButton();
@@ -36,7 +38,7 @@ public class StartGamePanel extends JPanel {
     }
 
     private void initPanel() {
-        
+
         //Load the background image
         try {
             backgroundImage = ImageIO.read(getClass().getResource("/Images/MainMenuBackground.png"));
@@ -47,7 +49,7 @@ public class StartGamePanel extends JPanel {
         //Make sure the panle has GUI focus
         //So keypresses are registered to this panel
         setFocusable(true);
-        addKeyListener(new TAdapter());
+        addMouseListener(this);
 
     }
 
@@ -56,28 +58,37 @@ public class StartGamePanel extends JPanel {
         //call the paintComponent method on the superclass to initialise drawing
         super.paintComponent(g);
         Font titleFont = new Font("Arial", Font.PLAIN, 22);
-        
+
         //Start drawing -- the background goes first
         g.setFont(titleFont);
         g.drawString(SCREEN_TITLE, 20, 20);
         g.drawImage(backgroundImage, 0, 0, null);
-g.drawImage(thebutton.getSprite(), thebutton.getX(), thebutton.getY(), null);
+        g.drawImage(thebutton.getSprite(), thebutton.getX(), thebutton.getY(), null);
         Toolkit.getDefaultToolkit().sync(); // Ensure that the objects visual state is up to date
     }
 
-    private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_P) {
-                game.playGame();    //press P to play the game
-            }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            game.playGame();
         }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-        }
     }
 
+    @Override
+    public void mousePressed(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent me) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent me) {
+
+    }
 }
