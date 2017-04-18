@@ -35,7 +35,14 @@ import java.util.Random;
  * listen for user key presses and update the player's position
  */
 public class Level1 extends JPanel implements ActionListener {
-
+    int VIEWPORT_SIZE_Y;
+    int VIEWPORT_SIZE_X;
+    int offsetMaxX = 1600 - VIEWPORT_SIZE_X;
+    int offsetMaxY = 600 - VIEWPORT_SIZE_Y;
+    int offsetMinX = 0;
+    int offsetMinY = 0;
+    int camX = 0;
+    int camY = 0;
     private int score = 0;
     private Timer timer;
     BufferedImage background;
@@ -43,7 +50,7 @@ public class Level1 extends JPanel implements ActionListener {
     private Player thePlayer;
     private Ember[] embers;
     private final int NUMBER_OF_EMBERS = 5;
-    private final int GroundLevel = 520;
+    private final int GroundLevel = 500;
 
     public Level1(Game theGame) {
 
@@ -103,6 +110,9 @@ public class Level1 extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         //Draw Background
+        g.translate(-camX/2, -camY/2);
+        
+        
         g.drawImage(background, 0, 0, null);
         //Draw Obsticles
 
@@ -176,7 +186,7 @@ public class Level1 extends JPanel implements ActionListener {
         //The repaint method starts the process of updating the screen - calling
         //our version of the paintComponent method, which has the code for drawing
         //our characters and objects
-        
+        cameramaths();
         doMovement();
         checkCollisions();
         repaint();
@@ -224,5 +234,19 @@ public class Level1 extends JPanel implements ActionListener {
             }
             thePlayer.stop(stop);
         }
+    }
+    public void cameramaths(){
+        camX = thePlayer.getX() - VIEWPORT_SIZE_Y / 2;
+        camY = thePlayer.getY() - VIEWPORT_SIZE_Y / 2;
+        
+        if (camX > offsetMaxX){
+    camX = offsetMaxX;
+            }else if (camX < offsetMinX){
+    camX = offsetMinX;
+    if (camY > offsetMaxY)
+    camY = offsetMaxY;
+            }else if (camY < offsetMinY){
+    camY = offsetMinY;
+            }
     }
 }
