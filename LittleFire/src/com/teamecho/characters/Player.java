@@ -49,7 +49,9 @@ public class Player {
     //these are used to hold if the player is trying to move left and or right
     private boolean MovingRight = false;
     private boolean MovingLeft = false;
-//test123
+    
+    private int SpriteChangeDelay = 0;
+    private int ImagePosition=1;
     /**
      * Default constructor that sets X and Y coordinates to 10
      */
@@ -65,7 +67,7 @@ public class Player {
      */
     public void initCharacter() {
         try {
-            sprite = ImageIO.read(getClass().getResource("/Images/character.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/Player_Images/PlayerRunning1.png"));
         } catch (Exception ex) {
             System.err.println("Error loading player sprite");
         }
@@ -255,5 +257,35 @@ public class Player {
         //this forcefully sets the displacement to 0 so that this function can 
         // be used for more than 
         dY = 0;
+    }
+    
+    
+    public void SpriteChangeDelay(){
+        SpriteChangeDelay++;
+        if(SpriteChangeDelay==30){
+            changeSprite();
+        }
+    }
+    public void changeSprite(){
+        switch (ImagePosition) {
+            case 1:
+                try {
+                    sprite = ImageIO.read(getClass().getResource("/Images/Player_Images/PlayerRunning1.png"));
+                } catch (Exception ex) {
+                    System.err.println("Error loading player sprite");
+                }
+                ImagePosition=2;
+                break;
+            case 2:
+                try {
+                    sprite = ImageIO.read(getClass().getResource("/Images/Player_Images/PlayerRunning2.png"));
+                } catch (Exception ex) {
+                    System.err.println("Error loading player sprite");
+                }
+                ImagePosition=1;
+                break;
+            default:
+                
+        }
     }
 }
