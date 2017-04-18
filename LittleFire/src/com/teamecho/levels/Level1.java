@@ -13,6 +13,7 @@ package com.teamecho.levels;
 import com.teamecho.game.Game;
 import com.teamecho.characters.Player;
 import com.teamecho.characters.Ember;
+import com.teamecho.characters.Enemy;
 import com.teamecho.game.Sound;
 
 import java.awt.Graphics;
@@ -42,7 +43,11 @@ public class Level1 extends JPanel implements ActionListener {
     private Game game;
     private Player thePlayer;
     private Ember[] embers;
+    private Enemy[] enemies;
+    
+    private final int NUMBER_OF_ENEMIES = 3;
     private final int NUMBER_OF_EMBERS = 5;
+    
     private final int GroundLevel = 520;
 
     public Level1(Game theGame) {
@@ -51,9 +56,11 @@ public class Level1 extends JPanel implements ActionListener {
         thePlayer = new Player();
         thePlayer.setY(GroundLevel);
         embers = new Ember[NUMBER_OF_EMBERS];
+        enemies = new Enemy[NUMBER_OF_ENEMIES];
         Random rand = new Random();
         
         int emberX, emberY; // X and Y coordinates for the collectables
+        int enemyX, enemyY; // X and Y coordinates for the enemies
         
         //Initialise all embers
         for(int i = 0; i < NUMBER_OF_EMBERS; i++)
@@ -65,6 +72,15 @@ public class Level1 extends JPanel implements ActionListener {
             // ember object with the X and Y coordinates selected
             // and a score value
             embers[i] = new Ember(emberX, emberY, 30);
+        }
+        
+        // Initialise all Monster Objects
+        for(int j = 0; j < NUMBER_OF_ENEMIES; j++)
+        {
+            enemyX = rand.nextInt(600) + 1;
+            enemyY = rand.nextInt(400) + 1;
+            
+            enemies[j] = new Enemy(enemyX, enemyY);
         }
         
         init();
@@ -118,6 +134,14 @@ public class Level1 extends JPanel implements ActionListener {
             }
         }
         
+        //Draw each monster on screen if it is alive
+        for (int j = 0; j < NUMBER_OF_ENEMIES; j++)
+        {
+            if(enemies[j].getVisible() == true)
+            {
+                g.drawImage(enemies[j].getSprite(), enemies[j].getX(), enemies[j].getY(), null);
+            }
+        }
        
 
         //Code to draw the score on screen
@@ -135,6 +159,8 @@ public class Level1 extends JPanel implements ActionListener {
     public void checkCollisions() {
         Rectangle playerBounds = thePlayer.getBounds();
         Rectangle currentEmberBounds; //this variable will be updated with the bounds of each ember in a loop
+        Rectangle currentEnemyBounds;
+        
         if (thePlayer.getY() > GroundLevel - 3) {
             thePlayer.Land();
             thePlayer.setY(GroundLevel - 3);
@@ -154,7 +180,25 @@ public class Level1 extends JPanel implements ActionListener {
                }
            }
         }
+      
         
+        //Check to see if the player interacts with the monster
+        //Widthdraw score (health) if we do... 
+        // This will work very quickly -- implement a cool down counter 
+        // to avoid losing instantly!
+        for(int j = 0; j < NUMBER_OF_ENEMIES; j++)
+        {
+          currentEnemyBounds = enemies[j].getBounds();
+                    
+        if(enemies[j].getVisible() == true)
+        {
+            if(playerBounds.intersects(currentEnemyBounds))
+            {
+                score -= 5;
+            }
+        }
+        
+        }
     }
 
     /**
@@ -162,6 +206,9 @@ public class Level1 extends JPanel implements ActionListener {
      */
     public void doMovement() {
         thePlayer.updateMove();
+        
+        for(int i = 0; i < NUMBER_OF_ENEMIES; i++)
+        enemies[i].move(600, 600); //move within the bounds of the game level
     }
 
     /**
