@@ -94,6 +94,9 @@ public class SpikePit {
     {
         return isVisible; 
     }
-    
+    public int getSpriteHeight() 
+    {
+        return spriteHeight;
+    }
 }
 
