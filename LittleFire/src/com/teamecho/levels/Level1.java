@@ -14,6 +14,7 @@ import com.teamecho.game.Game;
 import com.teamecho.characters.Player;
 import com.teamecho.characters.Ember;
 import com.teamecho.characters.Enemy;
+import com.teamecho.characters.SpikePit;
 import com.teamecho.game.Sound;
 
 import java.awt.Graphics;
@@ -38,12 +39,14 @@ import java.util.Random;
 public class Level1 extends JPanel implements ActionListener {
 
     private int score = 0;
+    private int health = 100;
     private Timer timer;
     BufferedImage background;
     private Game game;
     private Player thePlayer;
     private Ember[] embers;
     private Enemy[] enemies;
+    private SpikePit theSpikePit;
     
     private final int NUMBER_OF_ENEMIES = 3;
     private final int NUMBER_OF_EMBERS = 5;
@@ -57,6 +60,8 @@ public class Level1 extends JPanel implements ActionListener {
         thePlayer.setY(GroundLevel);
         embers = new Ember[NUMBER_OF_EMBERS];
         enemies = new Enemy[NUMBER_OF_ENEMIES];
+        theSpikePit = new SpikePit();
+        theSpikePit.setY(GroundLevel);
         Random rand = new Random();
         
         int emberX, emberY; // X and Y coordinates for the collectables
@@ -91,6 +96,7 @@ public class Level1 extends JPanel implements ActionListener {
 //with the constructor method - that can only be called once.
     private void init() {
         score = 0;
+        health = 100;
         addKeyListener(new TAdapter());
         setFocusable(true);
         setDoubleBuffered(true);
@@ -142,13 +148,20 @@ public class Level1 extends JPanel implements ActionListener {
                 g.drawImage(enemies[j].getSprite(), enemies[j].getX(), enemies[j].getY(), null);
             }
         }
+        
+        //Draw Spike Pits on screen
+        if(theSpikePit.getVisible() == true)
+        {
+            g.drawImage(theSpikePit.getSprite(), theSpikePit.getX(), theSpikePit.getY(), null);
+        }
        
 
-        //Code to draw the score on screen
+        //Code to draw the score and health on screen
         Font uiFont = new Font("Arial", Font.PLAIN, 14);
-        g.setColor(Color.orange);
+        g.setColor(Color.black);
         g.setFont(uiFont);
         g.drawString("Score: " + score, 10, 15);
+        g.drawString("Health " + health + "/100", 10, 35);
 
         g.dispose();
     }
@@ -160,6 +173,7 @@ public class Level1 extends JPanel implements ActionListener {
         Rectangle playerBounds = thePlayer.getBounds();
         Rectangle currentEmberBounds; //this variable will be updated with the bounds of each ember in a loop
         Rectangle currentEnemyBounds;
+        Rectangle SpikePitBounds = theSpikePit.getBounds();
         
         if (thePlayer.getY() > GroundLevel - 3) {
             thePlayer.Land();
@@ -194,11 +208,20 @@ public class Level1 extends JPanel implements ActionListener {
         {
             if(playerBounds.intersects(currentEnemyBounds))
             {
-                score -= 5;
+                health -= 5;
             }
         }
         
         }
+        
+        //Check player collision with Spike Pit
+        if(theSpikePit.getVisible() == true)
+        {
+           if(playerBounds.intersects(SpikePitBounds)) 
+           {
+                health -= 5;
+           }
+        }   
     }
 
     /**
